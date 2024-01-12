@@ -1,7 +1,7 @@
 const MathBasic = {
-  add: (...args) => {
+  _validateArgs(args) {
     if (args.length !== 2) {
-      throw new Error("fungsi add hanya menerima dua parameter");
+      throw new Error("Fungsi hanya menerima dua parameter");
     }
 
     const [a, b] = args;
@@ -10,52 +10,26 @@ const MathBasic = {
       throw new Error("fungsi hanya menerima parameter number");
     }
 
+    return args;
+  },
+
+  add(...args) {
+    const [a, b] = this._validateArgs(args);
     return a + b;
   },
 
-  subtract: (...args) => {
-    if (args.length !== 2) {
-      throw new Error("fungsi subrtact hanya menerima dua parameter");
-    }
-
-    const [a, b] = args;
-
-    if (typeof a !== "number" || typeof b !== "number") {
-      throw new Error("fungsi hanya menerima parameter number");
-    }
-
+  subtract(...args) {
+    const [a, b] = this._validateArgs(args);
     return a - b;
   },
 
-  multiply: (...args) => {
-    if (args.length !== 2) {
-      throw new Error("fungsi multiply hanya menerima 2 parameters");
-    }
-
-    const [a, b] = args;
-
-    if (typeof a !== "number" || typeof b !== "number") {
-      throw new Error("fungsi multiply hanya menerima parameter number");
-    }
-
+  multiply(...args) {
+    const [a, b] = this._validateArgs(args);
     return a * b;
   },
 
-  divide: (...args) => {
-    if (args.length !== 2) {
-      throw new Error("fungsi divide menerima 2 parameters");
-    }
-
-    const [a, b] = args;
-
-    if (typeof a !== "number" || typeof b !== "number") {
-      throw new Error("fungsi divide hanya menerima parameter number");
-    }
-
-    if (a === 0 || b === 0) {
-      throw new Error("fungsi tidak menerima parameter zero");
-    }
-
+  divide(...args) {
+    const [a, b] = this._validateArgs(args);
     return a / b;
   },
 };
