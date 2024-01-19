@@ -19,7 +19,7 @@ class RocketLauncher {
   }
 
   async repairAllRockets() {
-    const failedRepairCount = 0;
+    let failedRepairCount = 0;
 
     for (const rocket of this.rockets) {
       try {
