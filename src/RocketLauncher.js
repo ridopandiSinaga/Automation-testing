@@ -1,6 +1,7 @@
 class RocketLauncher {
-  constructor(rockets = []) {
+  constructor(repairKit, rockets = []) {
     this.rockets = rockets;
+    this.repairKit = repairKit;
   }
 
   launchAllRockets() {
@@ -15,6 +16,24 @@ class RocketLauncher {
     const rocket = this.rockets.shift();
 
     rocket.engineStatus = "active";
+  }
+
+  async repairAllRockets() {
+    const failedRepairCount = 0;
+
+    for (const rocket of this.rockets) {
+      try {
+        await this.repairKit.repair(rocket);
+      } catch {
+        failedRepairCount++;
+      }
+    }
+
+    if (!failedRepairCount) {
+      return 'all rocked repaired!'
+    }
+
+    return `there was ${failedRepairCount} of ${this.rockets.length} rocket fail to repair`;
   }
 }
 
