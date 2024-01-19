@@ -73,8 +73,8 @@ describe("A RocketLauncher", () => {
         }
 
         return Promise.reject("failed ro repair the rocket");
-      }), 
-    }
+      }),
+    };
 
     const rocketLauncher = new RocketLauncher(fakeRocketRepairKit, [repairableRocket, unripairableRocket]);
 
@@ -88,5 +88,29 @@ describe("A RocketLauncher", () => {
      */
     expect(fakeRocketRepairKit.repair).toBeCalled();
     expect(fakeRocketRepairKit.repair).toBeCalledWith(repairableRocket);
+  });
+
+  // spy example
+  it('should repair all the rockets  with repair kit correctly', async () => {
+    // Arrange
+    const nasaRocket = new Rocket('nasaRocket');
+    const spaceXRocket = new Rocket('spaceXRocket');
+    // Menggunakan objek real
+    const rocketRepairKit = new RocketRepairKit({}, {}, {});
+    /**
+     * spy! Memata-matai fungsi repair  pada objek RocketRepairKit
+     * Tujuannya untuk memastikan fungsi repair dijalankan.
+     */
+    const spyRepair = jest.spyOn(rocketRepairKit, 'repair');
+    const rocketLauncher = new RocketLauncher(rocketRepairKit, [nasaRocket, spaceXRocket]);
+
+    // Action
+    const result = await rocketLauncher.repairAllRockets();
+
+    //  Assert
+    expect(spyRepair).toBeCalledTimes(2);
+    expect(spyRepair).toHaveBeenCalledWith(nasaRocket);
+    expect(spyRepair).toHaveBeenCalledWith(spaceXRocket);
+    expect(result).toEqual('all rocket repaired!');
   });
 });
