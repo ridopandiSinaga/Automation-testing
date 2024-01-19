@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const Rocket = require("./Rocket");
 const RocketLauncher = require("./RocketLauncher");
 const RocketRepairKit = require('./RocketRepairKit');
@@ -54,5 +55,38 @@ describe("A RocketLauncher", () => {
 
     // Assert
     expect(result).toEqual('there was 1 of 1 rocket fail to repair');
+  });
+
+  // mock example
+  it('should repair some repairable rocket when repair kit not repair some the rocket', async () => {
+    // Arrange
+    const repairableRocket = new Rocket('repairableRocket');
+    const unripairableRocket = new Rocket('unripariableRocket');
+    /**
+     * mock! Kita butuh mengubah implementasi fungsi  untuk menghasilkan keaddan sesuai skenario uji.
+     * Dan kita butuh untuk menguji apakah fungsi yang dijalankan/diperlukan.
+     */
+    const fakeRocketRepairKit = {
+      repair: jest.fn().mockImplementation((rocket) => {
+        if (rocket.name === 'repairableRocket') {
+          return Promise.resolve();
+        }
+
+        return Promise.reject("failed ro repair the rocket");
+      }), 
+    }
+
+    const rocketLauncher = new RocketLauncher(fakeRocketRepairKit, [repairableRocket, unripairableRocket]);
+
+    // Action
+    const result = await rocketLauncher.repairAllRockets();
+
+    // Assert
+    expect(result).toEqual(`there was 1 of 2 rocket fail to repair`);
+    /**
+     * memastikan bahwa fungsi repair terpanggil
+     */
+    expect(fakeRocketRepairKit.repair).toBeCalled();
+    expect(fakeRocketRepairKit.repair).toBeCalledWith(repairableRocket);
   });
 });
