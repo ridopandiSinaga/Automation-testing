@@ -17,7 +17,7 @@ class FigureCalculator {
     return args;
   }
 
-  calculateRectanglePrimeter(...args) {
+  calculateRectanglePerimeter(...args) {
     const [length, width] = this._verifyArgs(args, 2);
 
     // formula : 2 * (length + width)
